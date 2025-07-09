@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import CustomerType, Gender, Tenant
+
+admin.site.register(CustomerType)
+admin.site.register(Gender)
+admin.site.register(Tenant)

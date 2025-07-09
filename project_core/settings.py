@@ -136,4 +136,4 @@ AUTH_USER_MODEL = "account.User"
 
 LOGIN_REDIRECT_URL = "pages:dashboard"
 LOGIN_URL = "account:login"
-LOGIN_URL = "account:logout"
+LOGOUT_URL = "account:logout"

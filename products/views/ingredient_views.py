@@ -8,23 +8,23 @@ from django.views.generic import (
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from ..models import Product
+from ..models import Ingredient
 
 
-class ProductListView(LoginRequiredMixin, ListView):
-    model = Product
+class IngredientListView(LoginRequiredMixin, ListView):
+    model = Ingredient
     paginate_by = 10
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
-    model = Product
+class IngredientDetailView(LoginRequiredMixin, DetailView):
+    model = Ingredient
 
 
-class ProductCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    model = Product
+class IngredientCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Ingredient
     fields = "__all__"
-    success_url = reverse_lazy("products:products")
-    success_message = "Product was created successfully!"
+    success_url = reverse_lazy("products:ingredients")
+    success_message = "Ingredient was created successfully!"
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -33,12 +33,12 @@ class ProductCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return response
 
 
-class ProductUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    model = Product
+class IngredientUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Ingredient
     fields = "__all__"
     template_name_suffix = "_update_form"
-    success_url = reverse_lazy("products:products")
-    success_message = "Product was updated successfully!"
+    success_url = reverse_lazy("products:ingredients")
+    success_message = "Ingredient was updated successfully!"
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -47,6 +47,6 @@ class ProductUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return response
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
-    model = Product
-    success_url = reverse_lazy("products:products")
+class IngredientDeleteView(LoginRequiredMixin, DeleteView):
+    model = Ingredient
+    success_url = reverse_lazy("products:ingredients")
