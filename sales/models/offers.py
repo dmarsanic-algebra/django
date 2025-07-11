@@ -95,7 +95,7 @@ class Offer(models.Model):
             self.offer_number = (
                 f"0-{current_year_month}-{str(last_offer_number+1).zfill(3)}"
             )
-
+            self.calculate_total_price()
             super(Offer, self).save(*args, kwargs)
 
     def get_absolute_url(self):
