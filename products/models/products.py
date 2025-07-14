@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
-from decimal import Decimal
 from .ingredients import Ingredient
+from decimal import Decimal
 
 
 class Product(models.Model):
@@ -17,31 +17,31 @@ class Product(models.Model):
     base_price = models.DecimalField(
         max_digits=18,
         decimal_places=6,
-        default=Decimal("0.00"),
         help_text="Product base price",
+        default=Decimal("0.00"),
         null=True,
         blank=True,
     )
     price_mod = models.DecimalField(
         max_digits=5,
         decimal_places=3,
-        default=Decimal("1.00"),
         help_text="Product base price modificator",
+        default=Decimal("1.00"),
         null=True,
         blank=True,
     )
     fixed_costs = models.DecimalField(
         max_digits=18,
         decimal_places=3,
+        help_text="Fixed costs for product production",
         default=Decimal("0.00"),
-        help_text="Fixed costs for product",
         null=True,
         blank=True,
     )
     total_price = models.DecimalField(
         max_digits=18,
         decimal_places=3,
-        default=Decimal("1.00"),
+        default=Decimal("0.00"),
         help_text="Product total price",
         null=True,
         blank=True,
@@ -55,7 +55,7 @@ class Product(models.Model):
         if self.name != "" and self.code is not None:
             return f"{self.name} ({self.code})"
         else:
-            return super().__str__()
+            return self.name
 
     class Meta:
         ordering = ["name", "code"]
@@ -73,28 +73,26 @@ class Product(models.Model):
             )
         else:
             ingredient_total = Decimal(0.0)
-
         if len(self.ingredients_from_products.all()) > 0:
-            ingredient_from_products_total = Decimal(
+            ingredients_from_products_total = Decimal(
                 sum(
                     Decimal(ingredients_from_products.total_price)
                     for ingredients_from_products in self.ingredients_from_products.all()
                 )
             )
         else:
-            ingredient_from_products_total = Decimal(0.0)
-
+            ingredients_from_products_total = Decimal(0.0)
         self.base_price = (
             Decimal(self.fixed_costs)
             + ingredient_total
-            + ingredient_from_products_total
+            + ingredients_from_products_total
         )
         self.total_price = Decimal(self.base_price * self.price_mod)
 
-    def save(self, *args, kwargs):
+    def save(self, *args, **kwargs):
         if not self.pk:
-            super(Product, self).save(*args, kwargs)
+            super(Product, self).save(*args, **kwargs)
             self.calculate_total_price()
         else:
             self.calculate_total_price()
-            super(Product, self).save(*args, kwargs)
+            super(Product, self).save(*args, **kwargs)

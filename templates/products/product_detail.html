@@ -1,0 +1,104 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}PRODUCT{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 mb-5 border-bottom border-1">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Product Details</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a class="btn btn-success mb-4 me-1" href="{% url 'products:products-add' %}" role="button">Add</a>
+            <a class="btn btn-info mb-4 me-1" href="{% url 'products:products-update' pk=product.id %}" role="button">Update</a>
+            <a class="btn btn-info mb-4" href="{% url 'products:products' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-8">
+                <dl class="pe-3">
+                    <div class="fs-4 mb-3">
+                        General product data
+                    </div>
+                    <dd>Name</dd>
+                    <dt class="fs-4 border-bottom border-1 mb-3">{{ product.name }}</dt>
+                    <dd>Code</dd>
+                    <dt class="fs-4 border-bottom border-1 mb-3">{{ product.code }}</dt>
+                    <dd>Description</dd>
+                    <dt class="fs-4 border-bottom border-1 mb-3">{{ product.description }}</dt>
+                    
+                    <dd>Fixed costs</dd>
+                    <dt class="fs-4 border-bottom border-1 mb-3">{{ product.fixed_costs|floatformat:2 }} EUR</dt>
+                    <dd>Price modificator</dd>
+                    <dt class="fs-4 border-bottom border-1 mb-3">{{ product.price_mod|floatformat:2 }} EUR</dt>
+                    <dd>Price</dd>
+                    <dt class="fs-4 border-bottom border-1 mb-3">{{ product.base_price|floatformat:2 }} EUR</dt>
+                    <dd>Total Price</dd>
+                    <dt class="fs-4 mb-3">{{ product.total_price|floatformat:2 }} EUR</dt>
+                    
+                    {% if product.ingredients.all %}
+                        <hr class="sidebar-divider">
+                        <div class="fs-4 mb-3">
+                            Ingredients
+                        </div>
+                        {% for ingredient in product.ingredients.all %}
+                            <dd>Ingredient name</dd>
+                            <dt class="fs-4 mb-3">
+                                <a class="text-decoration-none"
+                                   href="{% url 'products:ingredients-detail' pk=ingredient.id %}">
+                                    {{ ingredient.name }}
+                                </a>
+                            </dt>
+                            <dd>Ingredient price</dd>
+                            <dt class="fs-4 border-bottom border-1 mb-3">({{ ingredient.total_price|floatformat:2 }}) EUR</dt>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    {% if product.ingredients_from_products.all %}
+                        <hr class="sidebar-divider">
+                        <div class="fs-4 mb-3">
+                            Products as ingredients
+                        </div>
+                        {% for ingredient_from_product in product.ingredients_from_products.all %}
+                            <dd>Product name</dd>
+                            <dt class="fs-4 mb-3">
+                                <a class="text-decoration-none"
+                                   href="{% url 'products:products-detail' pk=ingredient_from_product.id %}">
+                                    {{ ingredient_from_product.name }}
+                                </a>
+                            </dt>
+                            <dd>Product price</dd>
+                            <dt class="fs-4 border-bottom border-1 mb-3">{{ ingredient_from_product.total_price|floatformat:2 }} EUR</dt>
+                        {% endfor %}
+                    {% endif %}
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <h1 class="h4 mb-4 text-gray-800">Products Description</h1>
+                <p>
+                    The Product model in the Django web application represents the goods and services offered by the company.
+                    It includes the following details:
+                    <ul>
+                        <li><b>Product Name</b> The name of the product or service.</li>
+                        <li><b>Description</b> A detailed description of the product, highlighting its features and benefits.</li>
+                        <li><b>Price</b> The cost of the product or service.</li>
+                        <li><b>Category</b> The classification of the product, which helps in organizing similar items.</li>
+                        <li><b>Stock Information</b> Details about the availability of the product, including quantity in stock.
+                        </li>
+                        <li><b>SKU (Stock Keeping Unit)</b> A unique identifier for the product, aiding in inventory management.
+                        </li>
+                        <li><b>Code</b> A specific code that uniquely identifies each product.</li>
+                        <li><b>Ingredients</b> A list of materials or components used to create the product, detailing the raw
+                                               materials and their quantities.
+                        </li>
+                    </ul>
+                    This comprehensive information ensures efficient product management, accurate inventory tracking,
+                    and detailed product descriptions, enhancing the overall customer experience.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

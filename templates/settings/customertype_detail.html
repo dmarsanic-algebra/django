@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}CUSTOMER TYPE DETAILS{% endblock page_title %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="row mb-3">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <h1 class="h3 mb-0 text-gray-800">Customer Type Details</h1>
+        <a class="btn btn-outline-success mb-4 mt-3" href="{% url 'settings:customer-types' %}" role="button">Back</a>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="h5 mb-0 text-gray-800">Customer Type name: <b>{{ customertype.name }}</b></h1>
+        </div>
+        <div class="col-md-4">
+            <h1 class="h4 mb-4 text-gray-800">Customer Types Description</h1>
+            <p>
+                The Customer Types model in the Django web application for "Mala firma j.d.o.o." distinguishes between
+                two types of customers: Company and Person.<br/><br/>
+                A Company represents corporate clients and includes details such as the company name, address, contact
+                person, email, phone number, and VAT number.<br/><br/>
+                On the other hand, a Person represents individual clients and includes details such as full name,
+                address, email, and phone number.<br/><br/>
+                This categorization helps in managing customer data more effectively and tailoring offers accurately
+                based on whether the customer is a corporate entity or an individual.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

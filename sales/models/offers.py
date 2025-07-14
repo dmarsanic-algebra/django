@@ -21,7 +21,6 @@ class Offer(models.Model):
     offer_number = models.CharField(
         max_length=20, unique=True, blank=True, editable=False
     )
-
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="sent")
     offer_note = models.TextField(max_length=1500, null=True, blank=True)
     date_created = models.DateTimeField(
@@ -51,7 +50,12 @@ class Offer(models.Model):
         max_digits=5, decimal_places=3, default=Decimal("0.00"), null=True, blank=True
     )
     total_tax = models.DecimalField(
-        max_digits=5, decimal_places=3, default=Decimal("0.00"), null=True, blank=True
+        max_digits=5,
+        decimal_places=3,
+        default=Decimal("0.00"),
+        editable=False,
+        null=True,
+        blank=True,
     )
     created_by = models.ForeignKey(
         User, on_delete=models.DO_NOTHING, related_name="offers_created"
@@ -79,12 +83,12 @@ class Offer(models.Model):
         self.total_tax = self.total * Decimal(self.tax) / Decimal(100)
         self.total_sum = self.total + self.total_tax
 
-    def save(self, *args, kwargs):
+    def save(self, *args, **kwargs):
         if not self.offer_number:
             now = datetime.now()
             current_year_month = now.strftime("%Y%m")
             last_offer = (
-                Offer.objects.filter(offer_number__startswith=f"0-{current_year_month}")
+                Offer.objects.filter(offer_number__startswith=f"O-{current_year_month}")
                 .order_by("-offer_number")
                 .first()
             )
@@ -93,10 +97,16 @@ class Offer(models.Model):
             else:
                 last_offer_number = 0
             self.offer_number = (
-                f"0-{current_year_month}-{str(last_offer_number+1).zfill(3)}"
+                f"O-{current_year_month}-{str(last_offer_number + 1).zfill(3)}"
             )
-            self.calculate_total_price()
-            super(Offer, self).save(*args, kwargs)
+
+        super(Offer, self).save(*args, **kwargs)
+        # if not self.pk:
+        #     self.calculate_total_price()
+        #     super(Offer, self).save(*args, **kwargs)
+        # else:
+        #     self.calculate_total_price()
+        #     super(Offer, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("offers-detail", kwargs={"pk": self.pk})

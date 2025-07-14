@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}PRODUCT CREATE{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row mb-3">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0 text-gray-800">Create Product</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end mt-3 mb-0">
+            <a class="btn btn-outline-success mb-4" href="{% url 'products:products' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Create" class="btn btn-success">
+                </form>
+            </div>
+            <div class="col-md-4 offset-md-4">
+                <h1 class="h4 mb-4 text-gray-800">Products Description</h1>
+                <p>
+                    The Product model in the Django web application represents the goods and services offered by the company.
+                    It includes the following details:
+                    <ul>
+                        <li><b>Product Name</b> The name of the product or service.</li>
+                        <li><b>Description</b> A detailed description of the product, highlighting its features and benefits.</li>
+                        <li><b>Price</b> The cost of the product or service.</li>
+                        <li><b>Category</b> The classification of the product, which helps in organizing similar items.</li>
+                        <li><b>Stock Information</b> Details about the availability of the product, including quantity in stock.</li>
+                        <li><b>SKU (Stock Keeping Unit)</b> A unique identifier for the product, aiding in inventory management.</li>
+                        <li><b>Code</b> A specific code that uniquely identifies each product.</li>
+                        <li><b>Ingredients</b> A list of materials or components used to create the product, detailing the raw materials and their quantities.</li>
+                    </ul>
+                    This comprehensive information ensures efficient product management, accurate inventory tracking,
+                    and detailed product descriptions, enhancing the overall customer experience.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

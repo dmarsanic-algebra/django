@@ -1,0 +1,119 @@
+{% extends 'base/base.html' %}
+{% load custom_filters %}
+
+{% block page_title %}PRODUCTS{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Products</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a class="btn btn-success mb-4" href="{% url 'products:products-add' %}" role="button">Add</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <!-- DataTale -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Base Price</th>
+                            <th>Fixed Costs</th>
+                            <th>Price modificator</th>
+                            <th>Total Price</th>
+                            <th>Ingredients</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in product_list %}
+                                <tr>
+                                    <td>
+                                        <a class="fw-bold text-decoration-none " href="{% url 'products:products-detail' pk=product.id %}" role="button">
+                                            {{ product.name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ product.base_price|ceil_round:2 }} EUR
+                                    </td>
+                                    <td>
+                                        {{ product.fixed_costs|floatformat:2 }} EUR
+                                    </td>
+                                    <td>
+                                        {{ product.price_mod|floatformat:2 }} EUR
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold">{{ product.total_price|floatformat:2 }} EUR</span>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            {% for ingredient in product.ingredients.all %}
+                                                <li>
+                                                    <a class="text-decoration-none"
+                                                       href="{% url 'products:ingredients-detail' pk=ingredient.id %}"
+                                                       role="button">
+                                                        {{ ingredient.name }} ({{ ingredient.total_price|floatformat:2 }}) EUR
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                            <hr />
+                                            {% for ingredient_from_product in product.ingredients_from_products.all %}
+                                                <li>
+                                                    <a class="text-decoration-none"
+                                                       href="{% url 'products:products-detail' pk=ingredient_from_product.id %}"
+                                                       role="button">
+                                                        {{ ingredient_from_product.name }} ({{ ingredient_from_product.total_price|floatformat:2 }}) EUR
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td style="width: 15%;">
+                                        <a class="btn btn-outline-info" href="{% url 'products:products-update' pk=product.id %}" role="button">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger" href="{% url 'products:products-delete' pk=product.id %}" role="button">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Include pagination -->
+                {% include 'components/pagination.html' with page_obj=page_obj %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h1 class="h4 mb-4 text-gray-800">Products Description</h1>
+        <p>
+            The Product model in the Django web application represents the goods and services offered by the company.
+            It includes the following details:
+            <ul>
+                <li><b>Product Name</b> The name of the product or service.</li>
+                <li><b>Description</b> A detailed description of the product, highlighting its features and benefits.</li>
+                <li><b>Price</b> The cost of the product or service.</li>
+                <li><b>Category</b> The classification of the product, which helps in organizing similar items.</li>
+                <li><b>Stock Information</b> Details about the availability of the product, including quantity in stock.
+                </li>
+                <li><b>SKU (Stock Keeping Unit)</b> A unique identifier for the product, aiding in inventory management.
+                </li>
+                <li><b>Code</b> A specific code that uniquely identifies each product.</li>
+                <li><b>Ingredients</b> A list of materials or components used to create the product, detailing the raw
+                                       materials and their quantities.
+                </li>
+            </ul>
+            This comprehensive information ensures efficient product management, accurate inventory tracking,
+            and detailed product descriptions, enhancing the overall customer experience.
+        </p>
+    </div>
+</div>
+{% endblock content %}

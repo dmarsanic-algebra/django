@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}CUSTOMER TYPES{% endblock page_title %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Customer Types</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a class="btn btn-success mb-4" href="{% url 'settings:customer-types-add' %}" role="button">Add</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <!-- DataTale -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for customertype in customertype_list %}
+                        <tr>
+                            <td>
+                                <a class="fw-bold text-decoration-none "
+                                   href="{% url 'settings:customer-types-detail' pk=customertype.id %}" role="button">
+                                    {{ customertype.name }}
+                                </a>
+                            </td>
+                            <td style="width: 15%;">
+                                <a class="btn btn-outline-info"
+                                   href="{% url 'settings:customer-types-update' pk=customertype.id %}" role="button">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="btn btn-outline-danger"
+                                   href="{% url 'settings:customer-types-delete' pk=customertype.id %}" role="button">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Include pagination -->
+                {% include 'components/pagination.html' with page_obj=page_obj %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h1 class="h4 mb-4 text-gray-800">Customer Types Description</h1>
+        <p>
+            The Customer Types model in the Django web application for "Mala firma j.d.o.o." distinguishes between two types of customers: Company and Person.<br/><br/>
+            A Company represents corporate clients and includes details such as the company name, address, contact person, email, phone number, and VAT number.<br/><br/>
+            On the other hand, a Person represents individual clients and includes details such as full name, address, email, and phone number.<br/><br/>
+            This categorization helps in managing customer data more effectively and tailoring offers accurately based on whether the customer is a corporate entity or an individual.
+        </p>
+    </div>
+</div>
+{% endblock content %}

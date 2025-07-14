@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.urls import reverse
 from decimal import Decimal
@@ -29,6 +30,7 @@ class Ingredient(models.Model):
         null=True,
         blank=True,
     )
+
     total_price = models.DecimalField(
         max_digits=18,
         decimal_places=3,
@@ -42,7 +44,7 @@ class Ingredient(models.Model):
         if self.name != "" and self.code is not None:
             return f"{self.name} ({self.code})"
         else:
-            return super().__str__()
+            return self.name
 
     class Meta:
         ordering = ["name", "code"]
@@ -53,6 +55,6 @@ class Ingredient(models.Model):
     def calculate_total_price(self):
         self.total_price = Decimal(self.base_price) * Decimal(self.price_mod)
 
-    def save(self, *args, kwargs):
+    def save(self, *args, **kwargs):
         self.calculate_total_price()
-        super(Ingredient, self).save(*args, kwargs)
+        super(Ingredient, self).save(*args, **kwargs)

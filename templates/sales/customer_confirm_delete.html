@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}CUSTOMER DELETE{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row mb-3">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0 text-gray-800">Delete Customer</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end mt-3 mb-0">
+            <a class="btn btn-outline-success mb-4" href="{% url 'sales:customers' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <p>Are you sure you want to delete "{{ object }}"?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+            </div>
+            <div class="col-md-4 offset-md-4">
+                <h1 class="h4 mb-4 text-gray-800">Customers Description</h1>
+                <p>
+                    The Customer model in the Django web application captures detailed information about clients the company interacts with.
+                    This model includes:
+                    <ul>
+                        <li><b>Customer Type</b> Classification as either a Company or a Person.</li>
+                        <li><b>Name</b> The full name for individuals or the company name for corporate clients.</li>
+                        <li><b>Address</b> The physical address for billing and correspondence.</li>
+                        <li><b>Contact Information</b> Email and phone number for communication.</li>
+                        <li><b>Additional Details for Companies</b> Contact person and VAT number if applicable.</li>
+                    </ul>
+                    The Customer model is essential for managing client relationships, ensuring personalized service,
+                    and maintaining accurate records for generating offers, invoices, and other business documents.
+                    It helps streamline interactions and supports efficient customer management.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

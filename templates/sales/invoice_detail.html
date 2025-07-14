@@ -1,0 +1,153 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}Invoice{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Invoice Details</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a class="btn btn-success mb-4 me-1" href="{% url 'sales:invoices-add' %}" role="button">Add</a>
+            <a class="btn btn-info mb-4 me-1" href="{% url 'sales:invoices-update' pk=invoice.id %}" role="button">Update</a>
+            <a class="btn btn-info mb-4" href="{% url 'sales:invoices' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8 d-flex flex-column justify-content-start">
+                        <p class="fs-6 mb-1 text-uppercase">Customer:</p>
+                        <p class="fs-4 fw-bold mb-1">
+                            {% if invoice.customer.last_name %}
+                                {{ invoice.customer.name }} {{ invoice.customer.last_name }}
+                            {% else  %}
+                                {{ invoice.customer.name }}
+                            {% endif %}
+                        </p>
+                        {% if invoice.customer.vat_id %}
+                            <p class="mb-0 small">
+                                {{ invoice.customer.vat_id }}
+                            </p>
+                        {% endif %}
+                        <p class="mb-0 small">
+                            {{ invoice.customer.street }}<br/>
+                            {{ invoice.customer.postal_code }} {{ invoice.customer.city }}<br/>
+                            {{ invoice.customer.country }}
+                        </p>
+                    </div>
+                    <div class="col-md-4 d-flex flex-column align-items-start">
+                        <p class="fs-6 mb-1 text-uppercase">Company:</p>
+                        <p class="fs-4 fw-bold mb-1">
+                            {{ invoice.tenant.name }}
+                        </p>
+                        <p class="mb-0 small">
+                            {{ invoice.tenant.vat_id }}
+                        </p>
+                        <p class="mb-0 small">
+                            {{ invoice.tenant.street }}<br/>
+                            {{ invoice.tenant.postal_code }} {{ invoice.tenant.city }}<br/>
+                            {{ invoice.tenant.country }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-8 offset-md-8 d-flex flex-column justify-content-start">
+                        <p class="fs-3 mb-1">Invoice <span class="fs-4 fw-bold mb-1">{{ invoice.invoice_number }}</span></p>
+                        <p class="mb-0 small">Created: {{ invoice.date_created|date:"l, d. E Y." }}</p>
+                        <p class="small">Valid to: {{ invoice.valid_to|date:"l, d. E Y." }}</p>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Base Price</th>
+                                    <th class="text-end" style="width: 20%;">Total Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in invoice.products.all %}
+                                        <tr>
+                                            <td>
+                                                <a class="fw-bold text-decoration-none " href="{% url 'products:products-detail' pk=product.id %}" role="button">
+                                                    {{ product.name }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ product.base_price|floatformat:2 }} EUR
+                                            </td>
+                                            <td class="text-end">
+                                                <span class="fw-bold">{{ product.total_price|floatformat:2 }} EUR</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="pt-4 text-end fw-bold fs-5" colspan="2">Sum:</td>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="pt-4 text-end fw-bold fs-5">{{ invoice.total|floatformat:2 }} EUR</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="text-end fw-bold fs-5" colspan="2">Tax ({{ invoice.tax|floatformat:2 }} %):</td>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="text-end fw-bold fs-5">{{ invoice.total_tax|floatformat:2 }} EUR</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="text-end fw-bold fs-5" colspan="2">Total Sum:</td>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="text-end fw-bold fs-5">{{ invoice.total_sum|floatformat:2 }} EUR</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="fs-6 mb-1 text-uppercase">Note</p>
+                    </div>
+                    <div class="col-12">
+                        {% if invoice.invoice_note %}
+                            {{ invoice.invoice_note }}<br/>
+                        {% endif %}
+                        <p class="fw-bold my-1">Thank you!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h1 class="h4 mb-4 text-gray-800">Invoices Description</h1>
+        <p>
+            The Invoice model in the Django web application represents a formal billing document issued to customers.
+            It includes crucial information such as:
+            <ul>
+                <li><b>Invoice Number</b> A unique identifier for tracking purposes.</li>
+                <li><b>Customer Information</b> Details about the recipient, including name, address, and contact details.
+                </li>
+                <li><b>Itemized List</b> A breakdown of products and services provided, along with their quantities and
+                                         prices.
+                </li>
+                <li><b>Total Amount Due</b> The sum of all charges, including any applicable taxes and discounts.</li>
+                <li><b>Payment Terms</b> Information on due dates, payment methods, and late fee policies.</li>
+                <li><b>Issuer Information</b> Details about the company issuing the invoice, such as name, address, and
+                                              contact information.
+                </li>
+            </ul>
+            The Invoice model ensures that billing is accurate and professional, facilitating smooth financial transactions
+            and record-keeping between the company and its customers.
+        </p>
+    </div>
+</div>
+{% endblock content %}

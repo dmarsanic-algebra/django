@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}INGREDIENT UPDATE{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row mb-3">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0 text-gray-800">Update Ingredient</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end mt-3 mb-0">
+            <a class="btn btn-outline-success mb-4" href="{% url 'products:ingredients' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Update" class="btn btn-success">
+                </form>
+            </div>
+            <div class="col-md-4 offset-md-4">
+                <h1 class="h4 mb-4 text-gray-800">Ingredients Description</h1>
+                <p>
+                    The Ingredients model in the Django web application details the raw materials or components used in the company's products.
+                    It includes the following information:
+                    <ul>
+                        <li><b>Ingredient Name</b> The name of the raw material or component.</li>
+                        <li><b>Description</b> A detailed description of the ingredient, including its properties and uses.</li>
+                        <li><b>Quantity</b> The amount of the ingredient available or required for a specific product.</li>
+                        <li><b>Unit of Measure</b> The unit in which the ingredient is measured (e.g., kilograms, liters, pieces).</li>
+                        <li><b>Supplier Information</b> Details about the supplier of the ingredient, including contact information and pricing.</li>
+                        <li><b>Cost</b> The price of the ingredient, aiding in cost calculations for products.</li>
+                    </ul>
+                    The Ingredients model ensures accurate tracking and management of all components used in production,
+                    facilitating precise cost calculations and inventory management.
+                    This supports the creation of detailed and accurate product information and offers.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

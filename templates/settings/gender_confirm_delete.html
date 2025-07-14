@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}GENDER DELETE{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row mb-3">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0 text-gray-800">Delete Gender</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end mt-3 mb-0">
+            <a class="btn btn-outline-success mb-4" href="{% url 'settings:genders' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <p>Are you sure you want to delete "{{ object }}"?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+            </div>
+            <div class="col-md-4 offset-md-4">
+                <h1 class="h4 mb-4 text-gray-800">Genders Description</h1>
+                <p>
+                    The Gender model in the Django web application categorizes customers based on their gender.
+                    It includes four options:
+                    <ul>
+                        <li>Male</li>
+                        <li>Female</li>
+                        <li>Non-binary</li>
+                        <li>Prefer not to say</li>
+                    </ul>
+                    This model helps in personalizing interactions and communications with customers.
+                    For instance, marketing messages or offers can be tailored more effectively by understanding the gender
+                    of the customer.<br/><br/>
+                    It ensures that the application can handle diverse customer identities respectfully and inclusively.
+                    This categorization is essential for demographic analysis, customer profiling, and providing a more
+                    personalized user experience.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

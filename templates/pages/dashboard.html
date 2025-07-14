@@ -1,0 +1,122 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load dashboard_tags %}
+
+{% block page_title %}DASHBOARD{% endblock page_title %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+	<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-9">
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Earnings (Total Offers) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                {% total_planed_earnings %}
+            </div>
+         
+            <!-- Earnings (Total Invoices) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                {% total_earnings %}
+            </div>
+         
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                {% paid_earnings %}
+            </div>
+        
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                {% total_canceled_failed_offers %}
+            </div>
+        </div>
+        
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            Earnings Overview
+                        </h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="myAreaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            Paid vs. Canceled
+                        </h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-pie pt-4 pb-2">
+                            <canvas id="myPieChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center small">
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-primary"></i> Paid
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-success"></i> Canceled
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <h1 class="h4 mb-4 text-gray-800">Dashboard Description</h1>
+        <p>
+            The Dashboard in the Django web application serves as the central interface for users to access and manage key aspects of the system.
+            It provides a comprehensive overview and quick access to essential features and data, including:
+            <ul>
+                <li><b>Summary Statistics</b> Key metrics and performance indicators, such as total sales, active customers, pending invoices, and recent offers.</li>
+                <li><b>Quick Links</b> Easy navigation to frequently used sections like Customer Management, Product Catalog, Offers, Invoices, and System Settings.</li>
+                <li><b>Recent Activity</b> A log of recent actions and updates, helping users stay informed about the latest changes and activities within the application.</li>
+                <li><b>Notifications</b> Alerts and reminders for important tasks, such as pending approvals, upcoming deadlines, or system updates.</li>
+                <li><b>User-Specific Information</b> Personalized content based on the user’s role (e.g., Administrator, CEO, Manager, Employee), ensuring relevant data is prominently displayed.</li>
+            </ul>
+            The Dashboard enhances user efficiency by providing a centralized, intuitive,
+            and informative interface for managing all critical aspects of the application.
+        </p>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+{% block js_scripts %}
+<!-- Page level plugins -->
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+<script>
+    const years = {{ years|safe }};
+    const earnings = {{ earnings|safe }};
+    
+    const statusTotals = {{ status_totals|escapejs }};
+</script>
+
+<!-- Page level custom scripts -->
+<script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+<script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+{% endblock js_scripts %}

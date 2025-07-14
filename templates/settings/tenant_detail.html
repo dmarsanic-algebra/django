@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}TENANT DETAILS{% endblock page_title %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Tenant Details</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a class="btn btn-info mb-4 me-1" href="{% url 'settings:tenants-update' pk=tenant.id %}" role="button">Update</a>
+            <a class="btn btn-info mb-4" href="{% url 'settings:tenants' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="list-group">
+                    <li class="list-group-item">{{ tenant.name }}</li>
+                    <li class="list-group-item">{{ tenant.vat_id }}</li>
+                    <li class="list-group-item">{{ tenant.street }}</li>
+                    <li class="list-group-item">{{ tenant.postal_code }}</li>
+                    <li class="list-group-item">{{ tenant.city }}</li>
+                    <li class="list-group-item">{{ tenant.country }}</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h1 class="h4 mb-4 text-gray-800">Tenant Description</h1>
+                <p>
+                    The Tenant model in the Django web application represents the company that is using the application.
+                    In this context, a Tenant refers to "Mala firma j.d.o.o." or any other company that may use the
+                    app.<br/><br/>
+                    This model includes essential information such as the company name, address, contact information, and
+                    relevant business details.<br/><br/>
+                    The Tenant model helps in isolating data and settings for each company, ensuring that each tenant's data
+                    is securely separated and managed independently.<br/><br/>
+                    This is crucial for maintaining data privacy, providing tailored features, and offering a customized
+                    user experience for each company using the application.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,126 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}INVOICES{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Invoices</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a class="btn btn-success mb-4" href="{% url 'sales:invoices-add' %}" role="button">Add</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <!-- DataTale -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Total</th>
+                                <th>Dates</th>
+                                <th>Products</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for invoice in invoice_list %}
+                                <tr>
+                                    <td>
+                                        <a class="fw-bold text-decoration-none " href="{% url 'sales:invoices-detail' pk=invoice.id %}" role="button">
+                                            {{ invoice.invoice_number }}
+                                        </a><br/><br/>
+                                        <a class="text-decoration-none " href="{% url 'sales:customers-detail' pk=invoice.customer.id %}" role="button">
+                                            {% if invoice.customer.last_name %}
+                                                {{ invoice.customer.name }} {{ invoice.customer.last_name }}<br/>
+                                            {% else  %}
+                                                {{ invoice.customer.name }}<br/>
+                                            {% endif %}
+                                            {% if invoice.customer.vat_id %}
+                                                {{ invoice.customer.vat_id }}<br/>
+                                            {% endif %}
+                                            {{ invoice.customer.city }}, {{ invoice.customer.country }}<br/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        Total: {{ invoice.total|floatformat:2 }} EUR<br/>
+                                        Tax: {{ invoice.total_tax|floatformat:2 }} EUR<br/>
+                                        <b>Total sum: {{ invoice.total_sum|floatformat:2 }} EUR</b>
+                                    </td>
+                                    <td style="width: 25%;">
+                                        Created:<br/>{{ invoice.date_created|date:"l, d. E Y." }}<br/>
+                                        Valid to:<br/>{{ invoice.valid_to|date:"l, d. E Y." }}
+                                    </td>
+                                    <td>
+                                        {% if invoice.products.all %}
+                                            <ul>
+                                                {% for product in invoice.products.all %}
+                                                    <li>
+                                                        <a class="text-decoration-none"
+                                                           href="{% url 'products:products-detail' pk=product.id %}"
+                                                           role="button">
+                                                            {{ product.name }} ({{ product.total_price|floatformat:2 }}) EUR
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            There are no products added<br/>
+                                            to Offer {{ invoice.invoice_number }}!<br/>
+                                            <a class="text-decoration-none"
+                                               href="{% url 'sales:invoices-update' pk=invoice.id %}">
+                                                Add one
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ invoice.get_status_display }}
+                                    </td>
+                                    <td style="width: 15%;">
+                                        <a class="btn btn-outline-info" href="{% url 'sales:invoices-update' pk=invoice.id %}" role="button">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger" href="{% url 'sales:invoices-delete' pk=invoice.id %}" role="button">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Include pagination -->
+                {% include 'components/pagination.html' with page_obj=page_obj %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h1 class="h4 mb-4 text-gray-800">Invoices Description</h1>
+        <p>
+            The Invoice model in the Django web application represents a formal billing document issued to customers.
+            It includes crucial information such as:
+            <ul>
+                <li><b>Invoice Number</b> A unique identifier for tracking purposes.</li>
+                <li><b>Customer Information</b> Details about the recipient, including name, address, and contact details.
+                </li>
+                <li><b>Itemized List</b> A breakdown of products and services provided, along with their quantities and
+                                         prices.
+                </li>
+                <li><b>Total Amount Due</b> The sum of all charges, including any applicable taxes and discounts.</li>
+                <li><b>Payment Terms</b> Information on due dates, payment methods, and late fee policies.</li>
+                <li><b>Issuer Information</b> Details about the company issuing the invoice, such as name, address, and
+                                              contact information.
+                </li>
+            </ul>
+            The Invoice model ensures that billing is accurate and professional, facilitating smooth financial transactions
+            and record-keeping between the company and its customers.
+        </p>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,130 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}ABOUT{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">About us</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-primary" role="alert">
+                <h4 class="fw-bold fs-h4">!!!VAŽNO!!!</h4>
+                <p class="fw-bold">
+                    Ovo je demo aplikacija za:
+                    <a href="https://www.algebra.hr/cjelozivotno-obrazovanje/programi/razvoj-web-aplikacija-u-programskom-jeziku-python/"
+                       target="_blank">
+                        <b>
+                            <em>
+                                Program obrazovanja za stjecanje mikrokvalifikacije razvoj web aplikacija u programskom
+                                jeziku Python
+                            </em>
+                        </b>
+                    </a>. Za prijave ili više informacija javite preko
+                            <a href="https://www.algebra.hr/cjelozivotno-obrazovanje/kontakt/"
+                               target="_blank">
+                                kontakt forme
+                            </a>
+                </p>
+                <h4 class="fw-bold fs-h4 mt-5">Namjena</h4>
+                <p>
+                    Ova demo aplikacija služi za podučavanje razvoja web aplikacija u Django programskom okviru.
+                    Cilj aplikacije je demonstrirati osnovne koncepte i funkcionalnosti koje Django pruža,
+                    uključujući modeliranje podataka, upravljanje korisnicima, kreiranje ponuda i računa
+                    te implementaciju sustava za upravljanje ponudama i troškovima.<br/><br/>
+                    Važno je napomenuti da je ovo demo aplikacija i da zbog ograničenog vremena i
+                    složenosti neki dijelovi nisu u potpunosti implementirani.
+                    Iako aplikacija prikazuje ključne funkcionalnosti, može biti nedostataka u
+                    pogledu sigurnosti, optimizacije i korisničkog sučelja.<br/>
+                    Unatoč tome, ova aplikacija može poslužiti kao solidna početna točka za razvoj
+                    web aplikacija koje se mogu koristiti u produkciji. Razvojem i prilagodbom ove demo aplikacije,
+                    programeri mogu kreirati robusne i skalabilne sustave prilagođene
+                    specifičnim potrebama korisnika i poslovnih procesa.
+                </p>
+                <h4 class="fw-bold fs-h4 mt-5">Disclaimer</h4>
+                <p>
+                    Izgled ove aplikacije je baziran na Bootstrap temi <a
+                        href="https://startbootstrap.com/previews/sb-admin-2" target="_blank"><em>SB Admin
+                                                                                                  2</em></a>.<br>
+                    Ikone i grafike korištene u aplikaciji su preuzete sa stranice: <a
+                        href="https://www.freepik.com/author/stories" target="_blank"><em>Freepik Storysets</em></a>.
+                </p>
+            </div>
+            <p>
+                Welcome to the official website of Mala firma j.d.o.o., a leading innovator in the field of IoT technology.
+                Founded with a passion for improving everyday lives through advanced technology,
+                our company specializes in creating GPS tracking tags for various applications, including personal, animal, and asset tracking.
+                Whether you’re an adventurer, a pet owner, or a professional responsible for maintaining
+                large infrastructure, our products are designed to keep you connected and safe.
+            </p>
+            
+            <h4 class="h4 text-gray-800">Our Mission</h4>
+            <p>
+                At Mala firma j.d.o.o., our mission is to deliver cutting-edge IoT solutions that enhance security and peace of mind.
+                We aim to provide high-quality, reliable products that meet the
+                diverse needs of our customers while maintaining affordability and ease of use.
+            </p>
+            
+            <h4 class="h4 text-gray-800">
+                Our Services
+            </h4>
+            <p>
+                We understand the importance of precise and efficient project management.
+                That's why we have partnered with ABC Software d.o.o. to develop a state-of-the-art
+                web application tailored to our unique requirements. This powerful tool allows
+                our team to calculate costs for projects and services based on various input
+                parameters such as product quantities, delivery options, packaging, and graphical customization.
+            </p>
+            
+            <h4 class="h4 text-gray-800">
+                Features of Our Web Application
+            </h4>
+            <p>
+                <ul>
+                    <li>
+                        <b>Cost Calculation</b> Accurately computes the costs for different products and services, helping us to create comprehensive and competitive offers for our customers.
+                    </li>
+                    <li>
+                        <b>Customer Management</b> Efficiently handles customer data to streamline the quotation process.
+                    </li>
+                    <li>
+                        <b>Product and Service Management</b> Manages detailed information about our offerings,
+                                                              ensuring up-to-date and accurate data.
+                    </li>
+                    <li>
+                        <b>Raw Material Management</b> Keeps track of essential components and materials,
+                                                       vital for production and service delivery.
+                    </li>
+                    <li><b>Quotation Generation</b> Produces professional business documents that include all
+                                                    necessary details such as customer information,
+                                                    a list of products and services, total costs, deadlines, and payment terms.
+                    </li>
+                </ul>
+            </p>
+            
+            <h4 class="h4 text-gray-800">Our Team</h4>
+            <p>
+                Our dedicated team comprises skilled professionals who are passionate about technology and innovation.
+                We work tirelessly to ensure that our products and services exceed customer expectations.
+                Each team member brings a wealth of knowledge and experience,
+                contributing to our goal of maintaining high standards and achieving excellence in all our endeavors.
+            </p>
+            
+            <h4 class="h4 text-gray-800">Our Commitment</h4>
+            <p>
+                We are committed to ongoing innovation and improvement.
+                By listening to our customers and staying ahead of technological trends,
+                we strive to offer products that not only meet but exceed expectations.
+                Our collaboration with ABC Software d.o.o. is just one example of our dedication
+                to leveraging technology to enhance our service delivery and operational efficiency.
+            </p>
+            <p>
+                <b>Thank you for choosing Mala firma j.d.o.o.</b><br>
+                We look forward to serving you and helping you stay connected and secure with our advanced IoT solutions.
+                For more information, please <a href="{% url 'pages:contact_us' %}">contact us</a> or explore our product offerings on this website.
+            </p>
+        </div>
+    </div>
+{% endblock content %}

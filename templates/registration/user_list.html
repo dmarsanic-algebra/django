@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+{% load custom_filters %}
+
+{% block page_title %}USERS{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Users</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a class="btn btn-success mb-4" href="{% url 'account:users_add' %}" role="button">Add</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <!-- DataTale -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Description</th>
+                            <th>Job position</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in user_list %}
+                        <tr>
+                            <td>
+                                {{ user.first_name }} {{ user.last_name }}
+                            </td>
+                            <td>
+                                {{ user.email }}
+                            </td>
+                            <td>
+                                {{ user.description }}
+                            </td>
+                            <td>
+                                {{ user.job_position }}
+                            </td>
+                            <td style="width: 15%;">
+                                <a class="btn btn-outline-info" href="{% url 'account:users_update' pk=user.id %}"
+                                   role="button">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="btn btn-outline-danger" href="{% url 'account:users_delete' pk=user.id %}"
+                                   role="button">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Include pagination -->
+                {% include 'components/pagination.html' with page_obj=page_obj %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h1 class="h4 mb-4 text-gray-800">Users Description</h1>
+        <p>
+            The User Roles model in the Django web application defines four distinct roles: Administrators, CEO,
+            Managers, and Employees.
+        <ul>
+            <li><b>Administrators</b> have full access to all features and settings, allowing them to manage the entire
+                                      system.
+            </li>
+            <li><b>CEO</b> has high-level access to view and analyze overall business performance and strategic data.
+            </li>
+            <li><b>Managers</b> oversee specific departments or projects, with permissions to manage teams and resources
+                                within their scope.
+            </li>
+            <li><b>Employees</b> have access to perform their job-specific tasks and manage daily operations.</li>
+        </ul>
+            This role-based system ensures that users have appropriate access and permissions according to their
+            responsibilities, enhancing security and efficiency.
+        </p>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,164 @@
+{% block side_content %}
+{% if user.is_authenticated %}
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="offersCalculatorSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'pages:dashboard' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-calculator"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Offers Calcualtor</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'pages:dashboard' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'pages:dashboard' %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+    <!-- Nav Item - Sales Collapse Menu -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'sales:customers' %}active
+                    {% elif request.resolver_match.view_name == 'sales:invoices' %}active
+                    {% elif request.resolver_match.view_name == 'sales:offers' %}active{% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sales"
+           aria-expanded="true" aria-controls="sales">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Sales</span>
+        </a>
+        <div id="sales" class="collapse {% if request.resolver_match.view_name == 'sales:customers' %}show
+                        {% elif request.resolver_match.view_name == 'sales:invoices' %}show
+                        {% elif request.resolver_match.view_name == 'sales:offers' %}show{% endif %}" aria-labelledby="sales" data-parent="#offersCalculatorSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {% if request.resolver_match.view_name == 'sales:customers' %}active{% endif %}" href="{% url 'sales:customers' %}">Customers</a>
+                <a class="collapse-item {% if request.resolver_match.view_name == 'sales:invoices' %}active{% endif %}" href="{% url 'sales:invoices' %}">Invoices</a>
+                <a class="collapse-item {% if request.resolver_match.view_name == 'sales:offers' %}active{% endif %}" href="{% url 'sales:offers' %}">Offers</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Products and Ingredients Collapse Menu -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'products:products' %}active
+                {% elif request.resolver_match.view_name == 'products:ingredients' %}active{% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#products"
+           aria-expanded="true" aria-controls="products">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Products</span>
+        </a>
+        <div id="products" class="collapse {% if request.resolver_match.view_name == 'products:products' %}show{% elif request.resolver_match.view_name == 'products:ingredients' %}show{% endif %}" aria-labelledby="products" data-parent="#offersCalculatorSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {% if request.resolver_match.view_name == 'products:products' %}active{% endif %}" href="{% url 'products:products' %}">Products</a>
+                <a class="collapse-item {% if request.resolver_match.view_name == 'products:ingredients' %}active{% endif %}" href="{% url 'products:ingredients' %}">Ingredients</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Contact Us -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'pages:contact_us' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'pages:contact_us' %}">
+            <i class="fas fa-fw fa-envelope"></i>
+            <span>Contact us</span></a>
+    </li>
+
+    <!-- Nav Item - About -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'pages:about' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'pages:about' %}">
+            <i class="fas fa-fw fa-info-circle"></i>
+            <span>About</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Settings
+    </div>
+
+    <!-- Nav Item - Products and Ingredients Collapse Menu -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'settings:users' %}active
+                        {% elif request.resolver_match.view_name == 'settings:system_settings' %}active
+                        {% elif request.resolver_match.view_name == 'settings:tenants' %}active
+                        {% elif request.resolver_match.view_name == 'settings:customer-types' %}active
+                        {% elif request.resolver_match.view_name == 'settings:genders' %}active{% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#settings"
+           aria-expanded="true" aria-controls="settings">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <div id="settings" class="collapse {% if request.resolver_match.namespace == 'account' %}show
+                        {% elif request.resolver_match.view_name == 'settings:system_settings' %}show
+                        {% elif request.resolver_match.view_name == 'settings:tenants' %}show
+                        {% elif request.resolver_match.view_name == 'settings:customer-types' %}show
+                        {% elif request.resolver_match.view_name == 'settings:genders' %}show{% endif %}" aria-labelledby="settings" data-parent="#offersCalculatorSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {% if request.resolver_match.view_name == 'settings:system_settings' %}active{% endif %}" href="{% url 'settings:system_settings' %}">System settings</a>
+                <a class="collapse-item {% if request.resolver_match.view_name == 'settings:tenants' %}active{% endif %}" href="{% url 'settings:tenants' %}">Tenant</a>
+                <a class="collapse-item {% if request.resolver_match.namespace == 'account' %}active{% endif %}" href="{% url 'account:users' %}">Users</a>
+                <a class="collapse-item {% if request.resolver_match.view_name == 'settings:customer-types' %}active{% endif %}" href="{% url 'settings:customer-types' %}">Customer Types</a>
+                <a class="collapse-item {% if request.resolver_match.view_name == 'settings:genders' %}active{% endif %}" href="{% url 'settings:genders' %}">Genders</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
+<!-- End of Sidebar -->
+{% else %}
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="offersCalculatorSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'pages:index' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-calculator"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Offers Calcualtor</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Index -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'pages:index' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'pages:index' %}">
+            <i class="fas fa-fw fa-envelope"></i>
+            <span>Home</span></a>
+    </li>
+    
+    <!-- Nav Item - Contact Us -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'pages:contact_us' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'pages:contact_us' %}">
+            <i class="fas fa-fw fa-envelope"></i>
+            <span>Contact us</span></a>
+    </li>
+
+    <!-- Nav Item - About -->
+    <li class="nav-item {% if request.resolver_match.view_name == 'pages:about' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'pages:about' %}">
+            <i class="fas fa-fw fa-info-circle"></i>
+            <span>About</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
+<!-- End of Sidebar -->
+{% endif %}
+
+{% endblock side_content %}

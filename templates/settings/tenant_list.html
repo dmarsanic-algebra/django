@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}TENANTS{% endblock page_title %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Tenants</h1>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <!-- DataTale -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for tenant in tenant_list %}
+                                <tr>
+                                    <td>
+                                        <a class="fw-bold text-decoration-none " href="{% url 'settings:tenants-detail' pk=tenant.id %}" role="button">
+                                            {{ tenant.name }}<br>
+                                            <span class="fw-normal">({{ tenant.vat_id }})</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ tenant.street }}<br/>
+                                        {{ tenant.postal_code }} {{ tenant.city }}<br/>
+                                        {{ tenant.country }}
+                                    </td>
+                                    <td style="width: 15%;">
+                                        <a class="btn btn-outline-info" href="{% url 'settings:tenants-update' pk=tenant.id %}" role="button">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Include pagination -->
+                {% include 'components/pagination.html' with page_obj=page_obj %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h1 class="h4 mb-4 text-gray-800">Tenant Description</h1>
+        <p>
+            The Tenant model in the Django web application represents the company that is using the application.
+            In this context, a Tenant refers to "Mala firma j.d.o.o." or any other company that may use the
+            app.<br/><br/>
+            This model includes essential information such as the company name, address, contact information, and
+            relevant business details.<br/><br/>
+            The Tenant model helps in isolating data and settings for each company, ensuring that each tenant's data is
+            securely separated and managed independently.<br/><br/>
+            This is crucial for maintaining data privacy, providing tailored features, and offering a customized user
+            experience for each company using the application.
+        </p>
+    </div>
+</div>
+{% endblock content %}

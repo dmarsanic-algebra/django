@@ -1,0 +1,149 @@
+{% extends 'base/base.html' %}
+
+{% block page_title %}OFFER{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-4 text-gray-800">Offer Details</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a class="btn btn-success mb-4 me-1" href="{% url 'sales:offers-add' %}" role="button">Add</a>
+            <a class="btn btn-info mb-4 me-1" href="{% url 'sales:offers-update' pk=offer.id %}" role="button">Update</a>
+            <a class="btn btn-info mb-4" href="{% url 'sales:offers' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8 d-flex flex-column justify-content-start">
+                        <p class="fs-6 mb-1 text-uppercase">Customer:</p>
+                        <p class="fs-4 fw-bold mb-1">
+                            {% if offer.customer.last_name %}
+                                {{ offer.customer.name }} {{ offer.customer.last_name }}
+                            {% else  %}
+                                {{ offer.customer.name }}
+                            {% endif %}
+                        </p>
+                        {% if offer.customer.vat_id %}
+                            <p class="mb-0 small">
+                                {{ offer.customer.vat_id }}
+                            </p>
+                        {% endif %}
+                        <p class="mb-0 small">
+                            {{ offer.customer.street }}<br/>
+                            {{ offer.customer.postal_code }} {{ offer.customer.city }}<br/>
+                            {{ offer.customer.country }}
+                        </p>
+                    </div>
+                    <div class="col-md-4 d-flex flex-column align-items-start">
+                        <p class="fs-6 mb-1 text-uppercase">Company:</p>
+                        <p class="fs-4 fw-bold mb-1">
+                            {{ offer.tenant.name }}
+                        </p>
+                        <p class="mb-0 small">
+                            {{ offer.tenant.vat_id }}
+                        </p>
+                        <p class="mb-0 small">
+                            {{ offer.tenant.street }}<br/>
+                            {{ offer.tenant.postal_code }} {{ offer.tenant.city }}<br/>
+                            {{ offer.tenant.country }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-8 offset-md-8 d-flex flex-column justify-content-start">
+                        <p class="fs-3 mb-1">Offer <span class="fs-4 fw-bold mb-1">{{ offer.offer_number }}</span></p>
+                        <p class="mb-0 small">Created: {{ offer.date_created|date:"l, d. E Y." }}</p>
+                        <p class="small">Valid to: {{ offer.valid_to|date:"l, d. E Y." }}</p>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Base Price</th>
+                                    <th class="text-end" style="width: 20%;">Total Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in offer.products.all %}
+                                        <tr>
+                                            <td>
+                                                <a class="fw-bold text-decoration-none " href="{% url 'products:products-detail' pk=product.id %}" role="button">
+                                                    {{ product.name }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ product.base_price|floatformat:2 }} EUR
+                                            </td>
+                                            <td class="text-end">
+                                                <span class="fw-bold">{{ product.total_price|floatformat:2 }} EUR</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="pt-4 text-end fw-bold fs-5" colspan="2">Sum:</td>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="pt-4 text-end fw-bold fs-5">{{ offer.total|floatformat:2 }} EUR</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="text-end fw-bold fs-5" colspan="2">Tax ({{ offer.tax|floatformat:2 }} %):</td>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="text-end fw-bold fs-5">{{ offer.total_tax|floatformat:2 }} EUR</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="text-end fw-bold fs-5" colspan="2">Total Sum:</td>
+                                        <td style="border-top: 3px solid; border-top-color: #14354725; border-bottom: 3px solid; border-bottom-color: #14354725;"
+                                            class="text-end fw-bold fs-5">{{ offer.total_sum|floatformat:2 }} EUR</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="fs-6 mb-1 text-uppercase">Note</p>
+                    </div>
+                    <div class="col-12">
+                        {% if offer.offer_note %}
+                            {{ offer.offer_note }}<br/>
+                        {% endif %}
+                        <p class="fw-bold my-1">Thank you!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h1 class="h4 mb-4 text-gray-800">Offers Description</h1>
+        <p>
+            The Offer model in the Django web application represents a business document generated for customers.
+            It includes detailed information about the services and products being proposed, along with their associated
+            costs.
+            Key components of an offer include:
+            <ul>
+                <li><b>Customer Information</b> Details about the recipient of the offer.</li>
+                <li><b>Product and Service List</b> A comprehensive list of the items and services included in the offer.
+                </li>
+                <li><b>Pricing</b> Individual and total costs, including any applicable taxes and discounts.</li>
+                <li><b>Terms and Conditions</b> Payment terms, delivery timelines, and other contractual details.</li>
+            </ul>
+            The Offer model helps streamline the process of creating, managing, and sending professional proposals to
+            customers, ensuring clarity and accuracy in business transactions.
+        </p>
+    </div>
+</div>
+{% endblock content %}

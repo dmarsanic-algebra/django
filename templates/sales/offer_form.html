@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}OFFER CREATE{% endblock page_title %}
+
+{% block content %}
+    <!-- Page Heading -->
+<div class="row mb-3">
+    <div class="d-flex flex-row justify-content-between align-items-center col-md-12 ">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0 text-gray-800">Create Offer</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end mt-3 mb-0">
+            <a class="btn btn-outline-success mb-4" href="{% url 'sales:offers' %}" role="button">Back</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Create" class="btn btn-success">
+                </form>
+            </div>
+            <div class="col-md-4 offset-md-4">
+                <h1 class="h4 mb-4 text-gray-800">Offers Description</h1>
+                <p>
+                    The Offer model in the Django web application represents a business document generated for customers.
+                    It includes detailed information about the services and products being proposed, along with their associated costs.
+                    Key components of an offer include:
+                    <ul>
+                        <li><b>Customer Information</b> Details about the recipient of the offer.</li>
+                        <li><b>Product and Service List</b> A comprehensive list of the items and services included in the offer.</li>
+                        <li><b>Pricing</b> Individual and total costs, including any applicable taxes and discounts.</li>
+                        <li><b>Terms and Conditions</b> Payment terms, delivery timelines, and other contractual details.</li>
+                    </ul>
+                    The Offer model helps streamline the process of creating, managing, and sending professional proposals to customers, ensuring clarity and accuracy in business transactions.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

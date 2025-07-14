@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     DetailView,
@@ -5,10 +7,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from ..models import CustomerType
+from ..models import CustomerType, Gender
 
 
 class CustomerTypeListView(LoginRequiredMixin, ListView):
@@ -20,19 +19,17 @@ class CustomerTypeDetailView(LoginRequiredMixin, DetailView):
     model = CustomerType
 
 
-class CustomerTypeCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class CustomerTypeCreateView(LoginRequiredMixin, CreateView):
     model = CustomerType
-    fields = "__all__"  # ["name"]
+    fields = ["name"]
     success_url = reverse_lazy("settings:customer-types")
-    success_message = "CustomerType was created successfully!"
 
 
-class CustomerTypeUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class CustomerTypeUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomerType
-    fields = "__all__"  # ["name"]
+    fields = ["name"]
     template_name_suffix = "_update_form"
     success_url = reverse_lazy("settings:customer-types")
-    success_message = "CustomerType was updated successfully!"
 
 
 class CustomerTypeDeleteView(LoginRequiredMixin, DeleteView):
