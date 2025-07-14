@@ -8,45 +8,47 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from ..models import Product
+from ..models import Ingredient
 
 
-class ProductListView(LoginRequiredMixin, ListView):
-    model = Product
+class IngredientListView(LoginRequiredMixin, ListView):
+    model = Ingredient
     paginate_by = 10
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
-    model = Product
+class IngredientDetailView(LoginRequiredMixin, DetailView):
+    model = Ingredient
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
-    model = Product
+class IngredientCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Ingredient
     fields = "__all__"
-    success_url = reverse_lazy("products:products")
+    success_url = reverse_lazy("products:ingredients")
+    success_message = "Ingredient was created successfully!"
 
     def form_valid(self, form):
         # Save the form and get the new product object
         response = super().form_valid(form)
-        self.object.total_price = self.object.calculate_total_price()
+        self.object.total_price = self.object.calculate_total_price
         self.object.save()
         return response
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
-    model = Product
+class IngredientUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Ingredient
     fields = "__all__"
     template_name_suffix = "_update_form"
-    success_url = reverse_lazy("products:products")
+    success_url = reverse_lazy("products:ingredients")
+    success_message = "Ingredient was updated successfully!"
 
     def form_valid(self, form):
         # Save the form and get the new product object
         response = super().form_valid(form)
-        self.object.total_price = self.object.calculate_total_price()
+        self.object.total_price = self.object.calculate_total_price
         self.object.save()
         return response
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
-    model = Product
-    success_url = reverse_lazy("products:products")
+class IngredientDeleteView(LoginRequiredMixin, DeleteView):
+    model = Ingredient
+    success_url = reverse_lazy("products:ingredients")
